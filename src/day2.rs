@@ -11,14 +11,15 @@ impl FromStr for SubmarineMove {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let instruction: Vec<&str> = s.split_whitespace().collect();
-        let sub_move = match instruction[0] {
-            "forward" => Self::Forward(instruction[1].parse::<i32>().unwrap()),
-            "down" => Self::Down(instruction[1].parse::<i32>().unwrap()),
-            "up" => Self::Up(instruction[1].parse::<i32>().unwrap()),
+        let (instruction, amount) = s.split_once(' ').unwrap();
+        let delta = amount.parse::<i32>().unwrap();
+
+        match instruction {
+            "forward" => Ok(Self::Forward(delta)),
+            "down" => Ok(Self::Down(delta)),
+            "up" => Ok(Self::Up(delta)),
             _ => panic!("Unknown submarine move instruction!")
-        };
-        Ok(sub_move)
+        }
     }
 }
 
