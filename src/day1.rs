@@ -1,0 +1,26 @@
+#[aoc_generator(day1)]
+fn input_generator(input: &str) -> Vec<i32> {
+    input.lines().map(|i| i.trim().parse::<i32>().unwrap()).collect()
+}
+
+#[aoc(day1, part1)]
+fn part1(input: &Vec<i32>) -> i32 {
+    let mut increases = 0;
+    for pair in input.windows(2) {
+        if pair[1] > pair[0] {
+            increases = increases + 1;
+        }
+    }
+    increases
+}
+
+#[aoc(day1, part2)]
+fn part2(input: &Vec<i32>) -> usize {
+    input
+        .windows(3)
+        .map(|t| t.iter().sum())
+        .collect::<Vec<i32>>()
+        .windows(2)
+        .filter(|w| w[1] > w[0])
+        .count()
+}
