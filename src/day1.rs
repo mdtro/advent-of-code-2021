@@ -27,3 +27,30 @@ fn part2(input: &Vec<i32>) -> usize {
         .filter(|w| w[1] > w[0])
         .count()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    const INPUT: &str = "199
+200
+208
+210
+200
+207
+240
+269
+260
+263";
+
+    #[test]
+    fn test_part1() {
+        let parsed_input = input_generator(INPUT);
+        assert_eq!(7, part1(&parsed_input))
+    }
+
+    #[test]
+    fn test_part2() {
+        let parsed_input = input_generator(INPUT);
+        assert_eq!(5, part2(&parsed_input))
+    }
+}

@@ -66,3 +66,26 @@ fn part2(input: &Vec<SubmarineMove>) -> i32 {
 
     x * depth
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    const INPUT: &str = "forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2";
+
+    #[test]
+    fn test_part1() {
+        let parsed_input = input_generator(INPUT);
+        assert_eq!(150, part1(&parsed_input))
+    }
+
+    #[test]
+    fn test_part2() {
+        let parsed_input = input_generator(INPUT);
+        assert_eq!(900, part2(&parsed_input))
+    }
+}
