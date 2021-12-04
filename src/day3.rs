@@ -115,3 +115,32 @@ fn apply_bit_criteria(diag_report: Vec<Vec<char>>, position: usize, rating: Rati
     let new_position = position + 1;
     return apply_bit_criteria(reduced_report, new_position, rating);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    const INPUT: &str = "00100
+11110
+10110
+10111
+10101
+01111
+00111
+11100
+10000
+11001
+00010
+01010";
+
+    #[test]
+    fn test_part1() {
+        let parsed_input = input_generator(INPUT);
+        assert_eq!(198, part1(&parsed_input))
+    }
+
+    #[test]
+    fn test_part2() {
+        let parsed_input = input_generator(INPUT);
+        assert_eq!(230, part2(&parsed_input))
+    }
+}
