@@ -1,6 +1,9 @@
 #[aoc_generator(day1)]
 fn input_generator(input: &str) -> Vec<i32> {
-    input.lines().map(|i| i.trim().parse::<i32>().unwrap()).collect()
+    input
+        .lines()
+        .map(|i| i.trim().parse::<i32>().unwrap())
+        .collect()
 }
 
 #[aoc(day1, part1)]
