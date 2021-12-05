@@ -3,7 +3,7 @@ use std::str::FromStr;
 #[derive(Debug, Clone)]
 struct BingoSubsystem {
     numbers: Vec<i32>,
-    boards: Vec<Board>
+    boards: Vec<Board>,
 }
 
 impl BingoSubsystem {
@@ -23,7 +23,6 @@ impl BingoSubsystem {
     }
 
     fn play_last_winner(&mut self) -> i32 {
-
         // play number
         for (play_iteration, num) in self.numbers.iter().enumerate() {
             for (_, board) in self.boards.iter_mut().enumerate() {
@@ -49,9 +48,14 @@ impl BingoSubsystem {
         //   - filter for boards with a Some(score) (ie. they won)
         //   - filter for the one with the highest play iterations out of the winning boards
 
-        let score = self.boards.iter().filter(|b|
-            b.score.is_some()
-        ).max_by_key(|b| b.iterations.unwrap()).unwrap().score.unwrap();
+        let score = self
+            .boards
+            .iter()
+            .filter(|b| b.score.is_some())
+            .max_by_key(|b| b.iterations.unwrap())
+            .unwrap()
+            .score
+            .unwrap();
         score
     }
 }
@@ -61,7 +65,7 @@ struct Board {
     _board_index: usize,
     slots: Vec<(i32, bool)>,
     score: Option<i32>,
-    iterations: Option<usize>
+    iterations: Option<usize>,
 }
 
 impl Board {
@@ -73,8 +77,7 @@ impl Board {
             let row_id: usize = index / 5;
             let col_id: usize = index % 5;
 
-            if column_trues.into_iter().any(|x| x == 5) ||
-                row_trues.into_iter().any(|x| x == 5) {
+            if column_trues.into_iter().any(|x| x == 5) || row_trues.into_iter().any(|x| x == 5) {
                 break;
             }
 
@@ -84,13 +87,12 @@ impl Board {
             }
         }
 
-        column_trues.into_iter().any(|x| x == 5) ||
-            row_trues.into_iter().any(|x| x == 5)
+        column_trues.into_iter().any(|x| x == 5) || row_trues.into_iter().any(|x| x == 5)
     }
 
     fn mark_board(&mut self, number: i32) {
         if self.is_winner() {
-            return
+            return;
         }
 
         for value in self.slots.iter_mut() {
@@ -101,7 +103,7 @@ impl Board {
 
         match self.iterations {
             None => self.iterations = Some(1),
-            Some(i) => self.iterations = Some(i + 1)
+            Some(i) => self.iterations = Some(i + 1),
         }
     }
 
@@ -136,24 +138,22 @@ impl FromStr for BingoSubsystem {
         // build each board
         let mut boards: Vec<Board> = Vec::new();
         for (board_index, board) in lines_iter.enumerate() {
-            let board_values: Vec<(i32, bool)> = board.split_whitespace().map(|n| {
-                let num = n.trim().parse::<i32>().unwrap();
-                (num, false)
-            }).collect();
-            boards.push(
-                Board {
-                    _board_index: board_index,
-                    slots: board_values,
-                    score: None,
-                    iterations: None
-                }
-            );
+            let board_values: Vec<(i32, bool)> = board
+                .split_whitespace()
+                .map(|n| {
+                    let num = n.trim().parse::<i32>().unwrap();
+                    (num, false)
+                })
+                .collect();
+            boards.push(Board {
+                _board_index: board_index,
+                slots: board_values,
+                score: None,
+                iterations: None,
+            });
         }
 
-        Ok(Self {
-            numbers,
-            boards
-        })
+        Ok(Self { numbers, boards })
     }
 }
 
@@ -164,7 +164,7 @@ fn input_generator(input: &str) -> BingoSubsystem {
 
 #[aoc(day4, part1)]
 fn part1(input: &BingoSubsystem) -> i32 {
-    let mut bingo_subsystem= input.to_owned();
+    let mut bingo_subsystem = input.to_owned();
     bingo_subsystem.play()
 }
 
